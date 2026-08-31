@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Moduel/Stealanegg.lua"))()
+
 local SCRIPT_ID = "6f1e9cbd664f932a121caf05ea6bd465"
 local FOLDER = "BaconHub"
 local KEY_FILE = FOLDER .. "/Keysystem.json"
