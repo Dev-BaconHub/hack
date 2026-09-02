@@ -1,300 +1,88 @@
-local SCRIPT_ID = "75091e0a0e4a84bb126eaf087c439e07"
-local FOLDER = "BaconHub"
-local KEY_FILE = FOLDER .. "/Keysystem.json"
-local GET_KEY_LINK = "https://ads.luarmor.net/get_key?for=BaconHub-iOWdHhwshvLf"
-local DISCORD_LINK = "https://discord.gg/U3bfY3tPWW"
+local TweenService = game:GetService("TweenService");
+local Players = game:GetService("Players");
+local Debris = game:GetService("Debris");
 
-local ACCENT = Color3.fromRGB(230, 55, 55)
-local BORDER = Color3.fromRGB(10, 40, 120)
-local BG = Color3.fromRGB(10, 10, 13)
-local PANEL_BG = Color3.fromRGB(18, 18, 22)
+local CoreGui = (gethui and gethui()) or game:GetService("CoreGui");
 
-local Players = game:GetService("Players")
-local HttpService = game:GetService("HttpService")
-local TweenService = game:GetService("TweenService")
-local StarterGui = game:GetService("StarterGui")
-
-local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
-
-local function Tween(obj, props, t, style, dir)
-    style = style or Enum.EasingStyle.Quint
-    dir = dir or Enum.EasingDirection.Out
-    TweenService:Create(obj, TweenInfo.new(t, style, dir), props):Play()
+if CoreGui:FindFirstChild("rz-warning") then
+	CoreGui["rz-warning"]:Destroy()
 end
 
-local function Protect(gui)
-    local env = (getgenv and getgenv()) or _G
-    if env.HIDEUI then
-        gui.Parent = env.HIDEUI
-    elseif gethui then
-        gui.Parent = gethui()
-    elseif syn and syn.protect_gui then
-        syn.protect_gui(gui)
-        gui.Parent = game:GetService("CoreGui")
-    else
-        gui.Parent = game:GetService("CoreGui")
-    end
-end
+local ScreenGui = Instance.new("ScreenGui", CoreGui)
+ScreenGui.Name = "rz-warning"
+ScreenGui.IgnoreGuiInset = true
+Debris:AddItem(ScreenGui, 25)
 
-local function New(class, props, parent)
-    local inst = Instance.new(class)
-    for k, v in pairs(props) do
-        if k ~= "Children" and k ~= "Parent" then
-            pcall(function() inst[k] = v end)
-        end
-    end
-    if props.Children then
-        for _, c in ipairs(props.Children) do
-            pcall(function() c.Parent = inst end)
-        end
-    end
-    inst.Parent = props.Parent or parent
-    return inst
-end
+local Background = Instance.new("Frame", ScreenGui)
+Background.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Background.Size = UDim2.fromScale(1, 1)
+	
+local Gradient = Instance.new("UIGradient", Background)
+Gradient.Rotation = 90
+Gradient.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 0, 0));
+	ColorSequenceKeypoint.new(1.00, Color3.fromRGB(25, 25, 25));
+})
 
-local function Ripple(btn, mx, my)
-    task.spawn(function()
-        btn.ClipsDescendants = true
-        local nx = mx - btn.AbsolutePosition.X
-        local ny = my - btn.AbsolutePosition.Y
-        local sz = math.max(btn.AbsoluteSize.X, btn.AbsoluteSize.Y) * 1.6
-        local c = New("ImageLabel", {
-            Image = "rbxassetid://266543268",
-            ImageColor3 = Color3.fromRGB(255, 255, 255),
-            ImageTransparency = 0.82,
-            BackgroundTransparency = 1,
-            ZIndex = btn.ZIndex + 5,
-            Size = UDim2.new(0, 0, 0, 0),
-            Position = UDim2.new(0, nx, 0, ny),
-        }, btn)
-        Tween(c, { Size = UDim2.new(0, sz, 0, sz), Position = UDim2.new(0.5, -sz / 2, 0.5, -sz / 2) }, 0.45, Enum.EasingStyle.Quad)
-        Tween(c, { ImageTransparency = 1 }, 0.45, Enum.EasingStyle.Linear)
-        task.wait(0.46)
-        c:Destroy()
-    end)
-end
+local Center = Instance.new("Frame", Background)
+Center.Size = UDim2.fromScale(0.25, 0.09);
+Center.AnchorPoint = Vector2.new(0.5, 1)
+Center.Position = UDim2.new(0.5, 0, 0.95, 0)
+Center.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 
-local function Notify(title, desc, duration)
-    pcall(function()
-        StarterGui:SetCore("SendNotification", { Title = title, Text = desc or "", Duration = duration or 5 })
-    end)
-end
+local Corner = Instance.new("UICorner", Center)
+Corner.CornerRadius = UDim.new(0, 8)
 
-local function ToTime(expire)
-    if not expire or expire <= 0 then return "Lifetime" end
-    local left = expire - os.time()
-    if left < 0 then return "Expired" end
-    local days = math.floor(left / 86400)
-    local hours = math.floor((left % 86400) / 3600)
-    local minutes = math.floor((left % 3600) / 60)
-    if days > 0 then return string.format("%dd %dh", days, hours) end
-    if hours > 0 then return string.format("%dh %dm", hours, minutes) end
-    return string.format("%dm", minutes)
-end
+local ServerLink = "https://discord.gg/U3bfY3tPWW"
+local WarnMessage = "VN vô discord để lấy script hop | EN Go to Discord to get the hop script."
 
-local function SaveKey(key)
-    pcall(function()
-        if not isfolder(FOLDER) then makefolder(FOLDER) end
-        writefile(KEY_FILE, HttpService:JSONEncode({ key = key, saved_at = os.time() }))
-    end)
-end
+local Warn = Instance.new("TextLabel", Background)
+Warn.Text = WarnMessage
+Warn.Size = UDim2.new(0.6, 0, 0.2, 0)
+Warn.AnchorPoint = Vector2.new(0.5, 0.5)
+Warn.Position = UDim2.fromScale(0.5, 0.5)
+Warn.Font = Enum.Font.FredokaOne
+Warn.TextColor3 = Color3.fromRGB(230, 230, 230)
+Warn.TextScaled = true
+Warn.BackgroundTransparency = 1
 
-local function LoadSavedKey()
-    local ok, v = pcall(function()
-        if isfolder(FOLDER) and isfile(KEY_FILE) then
-            return HttpService:JSONDecode(readfile(KEY_FILE))
-        end
-    end)
-    if ok and type(v) == "table" and v.key then return v.key end
-    return ""
-end
+local CopyLink = Instance.new("TextButton", Center)
+CopyLink.Text = ServerLink
+CopyLink.Size = UDim2.new(0.8, 0, 0.6, 0)
+CopyLink.AnchorPoint = Vector2.new(0.5, 0.5)
+CopyLink.Position = UDim2.fromScale(0.5, 0.5)
+CopyLink.Font = Enum.Font.FredokaOne
+CopyLink.TextColor3 = Color3.fromRGB(180, 180, 180)
+CopyLink.TextScaled = true
+CopyLink.TextTransparency = 0.2
+CopyLink.BackgroundTransparency = 1
 
-local function ClearKey()
-    pcall(function()
-        if not isfolder(FOLDER) then makefolder(FOLDER) end
-        writefile(KEY_FILE, HttpService:JSONEncode({}))
-    end)
-end
+CopyLink.Activated:Connect(function()
+	if CopyLink.Text ~= "Copied!" then
+		setclipboard(ServerLink)
+		CopyLink.Text = "Copied!"
+		task.wait(2)
+		CopyLink.Text = ServerLink
+	end
+end)
 
-local function LoadApi()
-    local ok, sdk = pcall(function()
-        return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
-    end)
-    if not ok or type(sdk) ~= "table" then return nil end
-    sdk.script_id = SCRIPT_ID
-    return sdk
-end
+local CloseButton = Instance.new("TextButton", Background)
+CloseButton.Size = UDim2.fromScale(0.1, 0.055)
+CloseButton.Position = UDim2.fromScale(0.29, 0.99)
+CloseButton.AnchorPoint = Vector2.new(1, 1)
+CloseButton.Text = "Close"
+CloseButton.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+CloseButton.TextColor3 = Color3.fromRGB(235, 20, 20)
+CloseButton.Font = Enum.Font.FredokaOne
+CloseButton.TextScaled = true
+CloseButton.TextTransparency = 0.6
 
-local function ShowKeyUI(prefillKey)
-    local SG = Instance.new("ScreenGui")
-    SG.Name = "BaconHubKeySystem"
-    SG.ZIndexBehavior = Enum.ZIndexBehavior.Global
-    SG.ResetOnSpawn = false
-    SG.IgnoreGuiInset = true
-    Protect(SG)
+local Corner = Instance.new("UICorner", CloseButton)
+Corner.CornerRadius = UDim.new(0, 8)
 
-    local W, H = 380, 250
-    local Card = New("Frame", {
-        AnchorPoint = Vector2.new(0.5, 0.5),
-        Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(0, W, 0, H),
-        BackgroundColor3 = BG,
-        BorderSizePixel = 0,
-        ZIndex = 201,
-        ClipsDescendants = true,
-        Parent = SG,
-        Children = {
-            New("UICorner", { CornerRadius = UDim.new(0, 14) }),
-            New("UIStroke", { Color = BORDER, Transparency = 0.1, Thickness = 2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border }),
-        }
-    })
-
-    local Header = New("Frame", {
-        BackgroundColor3 = PANEL_BG,
-        BorderSizePixel = 0,
-        Size = UDim2.new(1, 0, 0, 46),
-        ZIndex = 202,
-        Parent = Card,
-        Children = { New("UICorner", { CornerRadius = UDim.new(0, 14) }) }
-    })
-    New("Frame", {
-        BackgroundColor3 = PANEL_BG,
-        BorderSizePixel = 0,
-        Position = UDim2.new(0, 0, 0.5, 0),
-        Size = UDim2.new(1, 0, 0.5, 0),
-        ZIndex = 202,
-        Parent = Header
-    })
-    New("ImageLabel", {
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 14, 0.5, -11),
-        Size = UDim2.new(0, 22, 0, 22),
-        Image = "rbxassetid://93449356170127",
-        ZIndex = 203,
-        Parent = Header
-    })
-    New("TextLabel", {
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 44, 0, 0),
-        Size = UDim2.new(1, -60, 1, 0),
-        Font = Enum.Font.GothamBold,
-        Text = "BaconHub | Key System",
-        TextColor3 = Color3.fromRGB(230, 230, 235),
-        TextSize = 16,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        ZIndex = 203,
-        Parent = Header
-    })
-
-    local ProfileRow = New("Frame", {
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 16, 0, 56),
-        Size = UDim2.new(1, -32, 0, 42),
-        ZIndex = 202,
-        Parent = Card
-    })
-    local AvatarImg = New("ImageLabel", {
-        BackgroundColor3 = PANEL_BG,
-        BorderSizePixel = 0,
-        Size = UDim2.new(0, 42, 0, 42),
-        Image = "",
-        ZIndex = 203,
-        Parent = ProfileRow,
-        Children = { New("UICorner", { CornerRadius = UDim.new(1, 0) }) }
-    })
-    New("TextLabel", {
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 54, 0, 0),
-        Size = UDim2.new(1, -54, 0, 20),
-        Font = Enum.Font.GothamBold,
-        Text = LocalPlayer.DisplayName,
-        TextColor3 = Color3.fromRGB(220, 220, 225),
-        TextSize = 14,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        TextTruncate = Enum.TextTruncate.AtEnd,
-        ZIndex = 203,
-        Parent = ProfileRow
-    })
-    New("TextLabel", {
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 54, 0, 20),
-        Size = UDim2.new(1, -54, 0, 16),
-        Font = Enum.Font.Gotham,
-        Text = "@" .. LocalPlayer.Name,
-        TextColor3 = Color3.fromRGB(130, 130, 140),
-        TextSize = 11,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        TextTruncate = Enum.TextTruncate.AtEnd,
-        ZIndex = 203,
-        Parent = ProfileRow
-    })
-    task.spawn(function()
-        local ok, img = pcall(function()
-            return Players:GetUserThumbnailAsync(LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
-        end)
-        if ok and img then AvatarImg.Image = img end
-    end)
-
-    local StatusBar = New("Frame", {
-        BackgroundColor3 = PANEL_BG,
-        BorderSizePixel = 0,
-        Position = UDim2.new(0, 16, 0, 106),
-        Size = UDim2.new(1, -32, 0, 28),
-        ZIndex = 202,
-        Parent = Card,
-        Children = {
-            New("UICorner", { CornerRadius = UDim.new(0, 7) }),
-            New("UIStroke", { Color = BORDER, Transparency = 0.5, Thickness = 1, ApplyStrokeMode = Enum.ApplyStrokeMode.Border }),
-        }
-    })
-    local StatusLabel = New("TextLabel", {
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 12, 0, 0),
-        Size = UDim2.new(1, -24, 1, 0),
-        Font = Enum.Font.GothamBold,
-        Text = "Checking Luarmor...",
-        TextColor3 = Color3.fromRGB(120, 255, 140),
-        TextSize = 12,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        ZIndex = 203,
-        Parent = StatusBar
-    })
-    local function SetStatus(msg, col)
-        col = col or Color3.fromRGB(120, 255, 140)
-        StatusLabel.Text = msg
-        StatusLabel.TextColor3 = col
-    end
-
-    task.spawn(function()
-        local api = LoadApi()
-        if api then
-            SetStatus("Connected to Luarmor. Enter your key", Color3.fromRGB(120, 255, 140))
-        else
-            SetStatus("Could not reach Luarmor. Check your connection.", Color3.fromRGB(255, 90, 90))
-        end
-    end)
-
-    local InputBox = New("Frame", {
-        BackgroundColor3 = PANEL_BG,
-        BorderSizePixel = 0,
-        Position = UDim2.new(0, 16, 0, 144),
-        Size = UDim2.new(1, -32, 0, 38),
-        ZIndex = 202,
-        Parent = Card,
-        Children = {
-            New("UICorner", { CornerRadius = UDim.new(0, 8) }),
-            New("UIStroke", { Color = BORDER, Transparency = 0.35, Thickness = 1, ApplyStrokeMode = Enum.ApplyStrokeMode.Border }),
-        }
-    })
-    local KeyInput = New("TextBox", {
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 12, 0, 0),
-        Size = UDim2.new(1, -24, 1, 0),
-        Font = Enum.Font.Gotham,
-        PlaceholderText = "Paste your key here...",
-        PlaceholderColor3 = Color3.fromRGB(110, 110, 120),
-        Text = prefillKey or "",
+CloseButton.Activated:Connect(function()
+	ScreenGui:Destroy()
+end)refillKey or "",
         TextColor3 = Color3.fromRGB(230, 230, 235),
         TextSize = 13,
         TextXAlignment = Enum.TextXAlignment.Left,
