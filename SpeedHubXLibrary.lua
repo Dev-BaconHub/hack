@@ -2202,5 +2202,4 @@ function Speed_Library:CreateWindow(Config)
   return Tabs
 end
 
-
 return Speed_Library
