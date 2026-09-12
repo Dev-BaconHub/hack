@@ -6,7 +6,7 @@ local UserInputService = game:GetService("UserInputService")
 local VirtualUser = game:GetService("VirtualUser")
 
 local Custom = {} do
-  Custom.ColorRGB = Color3.fromRGB(250, 7, 7)
+  Custom.ColorRGB = Color3.fromRGB(10, 40, 120)
 
   function Custom:Create(Name, Properties, Parent)
     local _instance = Instance.new(Name)
@@ -635,9 +635,6 @@ function Speed_Library:CreateWindow(Config)
   DropShadowHolder.Size = UDim2.new(0, 115 + TextLabel.TextBounds.X + 1 + TextLabel1.TextBounds.X, 0, 350)
 	MakeDraggable(Top, DropShadowHolder)
 
-
-  -- /// Blur
-
   local MoreBlur = Custom:Create("Frame", {
     AnchorPoint = Vector2.new(1, 1),
     BackgroundColor3 = Color3.fromRGB(0, 0, 0),
@@ -755,8 +752,6 @@ function Speed_Library:CreateWindow(Config)
     Name = "DropPageLayout",
     Parent = DropdownFolder
   })
-
-  -- /// Create Tab
 
   local Tabs = {}
   local CountTab = 0
@@ -901,8 +896,6 @@ function Speed_Library:CreateWindow(Config)
         TweenService:Create(FrameChoose, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 1, 0, 12)}):Play()
       end
     end)
-
-    --- /// Section
    
     local Sections, CountSection = {}, 0
 
