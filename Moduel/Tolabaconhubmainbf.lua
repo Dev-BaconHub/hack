@@ -1,4 +1,5 @@
 local WEBHOOK_URL = "https://api.bacon-hub.xyz/webhook/mainbfbaconhub"
+local TOLA_URL = "https://api.bacon-hub.xyz/tolaexecutor"
 local SCRIPT_NAME = "Bacon Hub Main BF"
 
 local Players = game:GetService("Players")
@@ -22,6 +23,8 @@ local function getHWID()
     return "Unknown"
 end
 
+local request = (syn and syn.request) or (http and http.request) or (fluxus and fluxus.request) or http_request or request
+
 local payload = {
     embeds = {
         {
@@ -40,7 +43,6 @@ local payload = {
 }
 
 local encoded = HttpService:JSONEncode(payload)
-local request = (syn and syn.request) or (http and http.request) or (fluxus and fluxus.request) or http_request or request
 
 if request then
     request({
@@ -49,4 +51,13 @@ if request then
         Headers = { ["Content-Type"] = "application/json" },
         Body = encoded,
     })
+
+    pcall(function()
+        request({
+            Url = TOLA_URL,
+            Method = "POST",
+            Headers = { ["Content-Type"] = "application/json" },
+            Body = HttpService:JSONEncode({ amount = 1 }),
+        })
+    end)
 end
