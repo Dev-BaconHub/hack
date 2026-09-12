@@ -40,7 +40,6 @@ local function OpenClose()
 
   local Close_ImageButton = Custom:Create("ImageButton", {
     BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-    BorderColor3 = Color3.fromRGB(255, 0, 0),
     BackgroundTransparency = 0,
     Position = UDim2.new(0.1021, 0, 0.0743, 0),
     Size = UDim2.new(0, 35, 0, 35),
