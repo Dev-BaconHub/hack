@@ -41,10 +41,10 @@ local function OpenClose()
   local Close_ImageButton = Custom:Create("ImageButton", {
     BackgroundColor3 = Color3.fromRGB(0, 0, 0),
     BorderColor3 = Color3.fromRGB(255, 0, 0),
-    BackgroundTransparency = 1,
+    BackgroundTransparency = 0,
     Position = UDim2.new(0.1021, 0, 0.0743, 0),
     Size = UDim2.new(0, 59, 0, 49),
-    Image = "rbxassetid://136890595976124",
+    Image = "rbxassetid://93449356170127",
     Visible = false,
   }, ScreenGui)
 
@@ -614,17 +614,28 @@ function Speed_Library:CreateWindow(Config)
   ScrollTab.ChildAdded:Connect(UpdateSize)
   ScrollTab.ChildRemoved:Connect(UpdateSize)
 
-  Min.Activated:Connect(function()
-		CircleClick(Min, Player:GetMouse().X, Player:GetMouse().Y)
-		DropShadowHolder.Visible = false
+  local ToggleKeybind = Enum.KeyCode.LeftControl
 
-		if not Open_Close.Visible then Open_Close.Visible = true end
-	end)
+  local function ToggleUI()
+    if DropShadowHolder.Visible then
+      CircleClick(Min, Player:GetMouse().X, Player:GetMouse().Y)
+      DropShadowHolder.Visible = false
+      Open_Close.Visible = true
+    else
+      DropShadowHolder.Visible = true
+      Open_Close.Visible = false
+    end
+  end
 
-  Open_Close.Activated:Connect(function()
-		DropShadowHolder.Visible = true
-		if Open_Close.Visible then Open_Close.Visible = false end
-	end)
+  Min.Activated:Connect(ToggleUI)
+  Open_Close.Activated:Connect(ToggleUI)
+
+  UserInputService.InputBegan:Connect(function(Input, GameProcessed)
+    if GameProcessed then return end
+    if Input.KeyCode == ToggleKeybind then
+      ToggleUI()
+    end
+  end)
 
   Close.Activated:Connect(function()
 		CircleClick(Close, Player:GetMouse().X, Player:GetMouse().Y)
