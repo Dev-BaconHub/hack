@@ -1,5 +1,5 @@
 local WEBHOOK_URL = "https://api.bacon-hub.xyz/webhook/mainbfbaconhub"
-local SCRIPT_NAME = "Bloxfruits"
+local SCRIPT_NAME = "Bacon Hub Main BF"
 
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
