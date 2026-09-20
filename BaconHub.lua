@@ -1,4 +1,9 @@
-local supportedPlaces = {
+if not game:IsLoaded() then game.Loaded:Wait() end
+
+local PlaceId = game.PlaceId
+local UniverseID = game.GameId
+
+local bloxFruitsPlaces = {
     [2753915549] = true,
     [85211729168715] = true,
     [4442272183] = true,
@@ -7,8 +12,10 @@ local supportedPlaces = {
     [100117331123089] = true,
 }
 
-if supportedPlaces[game.PlaceId] then
+if bloxFruitsPlaces[PlaceId] or UniverseID == 994732206 then
+    -- Blox Fruits
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Bloxfruits.lua"))()
-else
+elseif PlaceId == 124216119978534 or UniverseID == 10035204815 then
+    -- Ride A Pet
     loadstring(game:HttpGet("https://bacon-hub.xyz/loaders/Rideapet.lua"))()
 end
