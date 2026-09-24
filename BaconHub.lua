@@ -18,4 +18,7 @@ if bloxFruitsPlaces[PlaceId] or UniverseID == 994732206 then
 elseif PlaceId == 124216119978534 or UniverseID == 10035204815 then
     -- Ride A Pet
     loadstring(game:HttpGet("https://bacon-hub.xyz/loaders/Rideapet.lua"))()
+elseif PlaceId == 9391468976 or UniverseID == 3508322461 then
+    -- Jujutsu Kaisen
+    loadstring(game:HttpGet("https://bacon-hub.xyz/loaders/Jujutsukaisen.lua"))()
 end
