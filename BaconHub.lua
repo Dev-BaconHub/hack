@@ -17,8 +17,11 @@ if bloxFruitsPlaces[PlaceId] or UniverseID == 994732206 then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Bloxfruits.lua"))()
 elseif PlaceId == 124216119978534 or UniverseID == 10035204815 then
     -- Ride A Pet
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Rideapet.lua"))()
+    loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/rideapet.lua"))()
 elseif PlaceId == 9391468976 or UniverseID == 3508322461 then
     -- Jujutsu Kaisen
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Jujutsukaisen.lua"))()
+    loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/jujutsukaisen.lua"))()
+elseif PlaceId == 114326934417838 or UniverseID == 10765288803 then
+    -- Break and Steal an Egg
+    loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/breakandstealanegg.lua"))()
 end
