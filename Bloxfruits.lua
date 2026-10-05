@@ -1,1 +1,1 @@
-game.Players.LocalPlayer:Kick("Down")
+loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/Bloxfruits.lua"))()
