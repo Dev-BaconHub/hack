@@ -1,1 +1,1 @@
-loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/Bloxfruits.lua"))()
+loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/bloxfruits.lua"))()
