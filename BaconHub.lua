@@ -21,7 +21,4 @@ elseif PlaceId == 124216119978534 or UniverseID == 10035204815 then
 elseif PlaceId == 9391468976 or UniverseID == 3508322461 then
     -- Jujutsu Kaisen
     loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/jujutsukaisen.lua"))()
-elseif PlaceId == 114326934417838 or UniverseID == 10765288803 then
-    -- Break and Steal an Egg
-    loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/breakandstealanegg.lua"))()
 end
