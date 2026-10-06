@@ -20,5 +20,5 @@ elseif PlaceId == 124216119978534 or UniverseID == 10035204815 then
     loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/rideapet.lua"))()
 elseif PlaceId == 9391468976 or UniverseID == 3508322461 then
     -- Jujutsu Kaisen
-    loadstring(game:HttpGet("https://api.bacon-hub.xyz/loaders/jujutsukaisen.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Jujutsukaisen.lua"))()
 end
