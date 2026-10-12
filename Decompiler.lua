@@ -1,6 +1,6 @@
 -- Chả có gì skidder
 
-local SERVER_URL = "https://localhost:3000/decompile"
+local SERVER_URL = "http://localhost:3000/decompile"
 local OUTPUT_FILE = ".luau"
 
 local IGNORE_IF_EXISTS = true
