@@ -1,4 +1,4 @@
-local SERVER_URL = "https://ballot-none-zope-sides.trycloudflare.com/decompile"
+local SERVER_URL = "https://andrew-avenue-were-command.trycloudflare.com/decompile"
 local BASE_FOLDER = "decompiledGames" -- root folder inside the executor's workspace
 local OUTPUT_FILE = ".luau"
 
