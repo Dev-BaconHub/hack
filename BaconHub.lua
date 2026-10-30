@@ -15,10 +15,4 @@ local bloxFruitsPlaces = {
 if bloxFruitsPlaces[PlaceId] or UniverseID == 994732206 then
     -- Blox Fruits
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Bloxfruits.lua"))()
-elseif PlaceId == 124216119978534 or UniverseID == 10035204815 then
-    -- Ride A Pet
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Rideapet.lua"))()
-elseif PlaceId == 9391468976 or UniverseID == 3508322461 then
-    -- Jujutsu Kaisen
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Jujutsukaisen.lua"))()
 end
